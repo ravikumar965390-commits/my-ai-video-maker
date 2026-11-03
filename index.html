@@ -1,11 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>My AI Video Maker</title>
 
 <style>
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
   padding: 20px;
@@ -13,98 +16,132 @@ body {
   color: white;
   font-family: Arial, sans-serif;
 }
+
 .container {
   max-width: 500px;
   margin: auto;
 }
+
 h1 {
   text-align: center;
-  color: #8c7cff;
+  color: #9585ff;
 }
+
 .box {
   background: #202438;
-  padding: 18px;
+  padding: 20px;
   border-radius: 15px;
   margin-top: 20px;
 }
+
 input, textarea, button {
   width: 100%;
-  box-sizing: border-box;
-  padding: 13px;
+  padding: 14px;
   margin-top: 12px;
-  border-radius: 9px;
   border: none;
+  border-radius: 9px;
 }
+
 textarea {
-  height: 100px;
+  height: 110px;
+  resize: vertical;
 }
+
 button {
   background: #7562ff;
   color: white;
   font-size: 17px;
   font-weight: bold;
+  cursor: pointer;
 }
-img {
+
+button:active {
+  background: #5544d9;
+}
+
+#preview {
+  display: none;
   width: 100%;
   margin-top: 15px;
   border-radius: 12px;
-  display: none;
+}
+
+#message {
+  color: #a99cff;
+  text-align: center;
+  line-height: 1.5;
 }
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
 <h1>🎬 My AI Video Maker</h1>
-<p style="text-align:center">Create videos from your photos</p>
+<p style="text-align:center">
+Create videos from your photos
+</p>
 
 <div class="box">
+
 <h3>📸 Upload Your Photo</h3>
 
 <input type="file" id="photo" accept="image/*">
 
-<img id="preview">
+<img id="preview" alt="Photo preview">
 
 <h3>✍️ Describe Your Video</h3>
 
 <textarea id="prompt"
-placeholder="Describe how you want your photo to move..."></textarea>
+placeholder="Describe your video..."></textarea>
 
-<button onclick="generate()">Generate Video 🚀</button>
+<button type="button" id="generate">
+Generate Video 🚀
+</button>
 
-<p id="message"></p>
+<p id="message">Upload a photo to get started.</p>
+
 </div>
-
 </div>
 
 <script>
-document.getElementById("photo").onchange = function(e) {
-  const file = e.target.files[0];
+const photo = document.getElementById("photo");
+const preview = document.getElementById("preview");
+const prompt = document.getElementById("prompt");
+const message = document.getElementById("message");
+const generate = document.getElementById("generate");
+
+photo.addEventListener("change", function() {
+  const file = photo.files[0];
+
   if (!file) return;
 
-  const preview = document.getElementById("preview");
+  if (!file.type.startsWith("image/")) {
+    message.textContent = "Please select an image.";
+    return;
+  }
+
   preview.src = URL.createObjectURL(file);
   preview.style.display = "block";
-};
+  message.textContent = "Photo uploaded successfully!";
+});
 
-function generate() {
-  const photo = document.getElementById("photo").files[0];
-  const prompt = document.getElementById("prompt").value;
+generate.addEventListener("click", function() {
 
-  if (!photo) {
-    alert("Please upload a photo!");
+  if (!photo.files.length) {
+    message.textContent = "Please upload a photo first!";
     return;
   }
 
-  if (!prompt.trim()) {
-    alert("Please write a video prompt!");
+  if (!prompt.value.trim()) {
+    message.textContent = "Please write a video prompt!";
     return;
   }
 
-  document.getElementById("message").innerText =
-  "Photo uploaded! AI video engine will be connected in the next step.";
-}
+  message.textContent =
+    "Photo and prompt received successfully! AI video engine is not connected yet.";
+});
 </script>
 
 </body>
