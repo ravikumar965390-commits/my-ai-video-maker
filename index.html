@@ -127,22 +127,21 @@ photo.addEventListener("change", function() {
   message.textContent = "Photo uploaded successfully!";
 });
 
-generate.addEventListener("click", function() {
+function generateVideo() {
+  const file = document.getElementById("photo").files[0];
+  const prompt = document.getElementById("prompt").value;
+  const message = document.getElementById("message");
 
-  if (!photo.files.length) {
-    message.textContent = "Please upload a photo first!";
+  if (!file) {
+    alert("Pahle photo upload karo!");
     return;
   }
 
-  if (!prompt.value.trim()) {
-    message.textContent = "Please write a video prompt!";
+  if (!prompt.trim()) {
+    alert("Video prompt likho!");
     return;
   }
 
-  message.textContent =
-    "Photo and prompt received successfully! AI video engine is not connected yet.";
-});
-</script>
-
-</body>
-</html>
+  message.innerText =
+    "Photo aur prompt successfully received! AI engine connect karna baaki hai.";
+}
