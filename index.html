@@ -4,149 +4,258 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090d18">
 <title>My AI Video Maker</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:radial-gradient(circle at top right,#20285a,#090d18 45%);
+ color:white;
+ font-family:Arial,sans-serif;
+ min-height:100vh;
 }
-
-body {
-  margin: 0;
-  padding: 20px;
-  background: #10121c;
-  color: white;
-  font-family: Arial, sans-serif;
+header{text-align:center;padding:25px 15px}
+.logo{
+ display:inline-grid;place-items:center;
+ width:55px;height:55px;border-radius:17px;
+ background:linear-gradient(135deg,#7c5cff,#28c8d0);
+ font-size:28px;
 }
-
-.container {
-  max-width: 500px;
-  margin: auto;
+h1{font-size:30px;margin:12px 0 5px}
+.sub{color:#a9b6cc;font-size:14px}
+main{
+ width:min(900px,calc(100% - 28px));
+ margin:15px auto 40px;
+ display:grid;gap:16px;
 }
-
-h1 {
-  text-align: center;
-  color: #9585ff;
+.card{
+ background:#111a2b;
+ border:1px solid #26344d;
+ border-radius:18px;
+ padding:18px;
 }
-
-.box {
-  background: #202438;
-  padding: 20px;
-  border-radius: 15px;
-  margin-top: 20px;
+h2{font-size:18px;margin:0 0 15px}
+.upload{
+ border:2px dashed #526589;
+ border-radius:15px;
+ min-height:180px;
+ display:grid;place-items:center;
+ text-align:center;
+ padding:18px;
+ cursor:pointer;
+ background:#0c1424;
 }
-
-input, textarea, button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 12px;
-  border: none;
-  border-radius: 9px;
+.upload:hover{border-color:#28d7d0}
+.upload strong{display:block;margin:10px 0}
+.upload small,.hint{color:#a9b6cc;font-size:12px}
+#photo{display:none}
+#previewWrap{display:none;margin-top:15px;text-align:center}
+#photoPreview{
+ max-width:100%;max-height:350px;
+ border-radius:14px;object-fit:contain;
 }
-
-textarea {
-  height: 110px;
-  resize: vertical;
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+button{
+ border:0;border-radius:12px;
+ padding:14px 18px;font-weight:bold;
+ cursor:pointer;
 }
-
-button {
-  background: #7562ff;
-  color: white;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
+.primary{
+ width:100%;color:white;
+ background:linear-gradient(100deg,#7c5cff,#377de8);
+ font-size:16px;
 }
-
-#preview {
-  display: none;
-  width: 100%;
-  margin-top: 15px;
-  border-radius: 12px;
+.secondary{background:#26344d;color:white}
+textarea,select{
+ width:100%;background:#0b1322;color:white;
+ border:1px solid #26344d;border-radius:12px;
+ padding:14px;font-size:15px;
 }
-
-#message {
-  color: #b7aaff;
-  text-align: center;
-  line-height: 1.5;
+textarea{min-height:120px;resize:vertical}
+#status{
+ margin-top:13px;padding:13px;
+ border-radius:12px;background:#0b1322;
+ color:#dce6ff;font-size:13px;line-height:1.6;
+}
+.note{color:#a9b6cc;font-size:13px;line-height:1.6}
+footer{text-align:center;color:#8290a9;font-size:12px;padding:15px}
+@media(min-width:720px){
+ main{grid-template-columns:1fr 1fr}
+ .wide{grid-column:1/-1}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<header>
+ <div class="logo">🎬</div>
+ <h1>My AI Video Maker</h1>
+ <p class="sub">Apni photo se cinematic video banane ka workspace</p>
+</header>
 
-<h1>🎬 My AI Video Maker</h1>
-<p style="text-align:center">
-Create Videos From Your Photos
-</p>
+<main>
 
-<div class="box">
+<section class="card">
+ <h2>1. Photo Upload Karo</h2>
 
-<h3>📸 Upload Your Photo</h3>
+ <label class="upload" for="photo">
+  <div>
+   <div style="font-size:35px">📸</div>
+   <strong>Photo chunne ke liye tap karo</strong>
+   <small>JPG, JPEG, PNG ya WEBP supported</small>
+  </div>
+ </label>
 
-<input type="file" id="photo" accept="image/*">
+ <input id="photo" type="file"
+ accept="image/jpeg,image/png,image/webp">
 
-<img id="preview" alt="Photo Preview">
+ <div id="previewWrap">
+  <img id="photoPreview" alt="Photo Preview">
+  <div class="row">
+   <span id="fileName" class="hint"></span>
+   <button id="removePhoto" class="secondary" type="button">
+    Photo Hatao
+   </button>
+  </div>
+ </div>
+</section>
 
-<h3>✍️ Describe Your Video</h3>
+<section class="card">
+ <h2>2. Video Prompt Likho</h2>
 
-<textarea id="prompt"
-placeholder="Describe how you want your photo to move..."></textarea>
+ <textarea id="prompt"
+ placeholder="Example: Create a realistic cinematic video. The person gently turns toward the camera, natural wind moves the background, smooth camera movement and realistic lighting."></textarea>
 
-<button type="button" onclick="generateVideo()">
-Generate Video 🚀
-</button>
+ <p class="hint">Video mein kya dikhana hai, yahan likho.</p>
 
-<p id="message">Upload your photo to get started.</p>
+ <h2 style="margin-top:20px">3. Video Format</h2>
 
-</div>
-</div>
+ <select id="ratio">
+  <option value="9:16">Vertical 9:16 - Reels / Shorts</option>
+  <option value="16:9">Landscape 16:9 - YouTube</option>
+  <option value="1:1">Square 1:1</option>
+ </select>
+</section>
+
+<section class="card wide">
+ <h2>4. Generate Video</h2>
+
+ <button id="generate" class="primary" type="button">
+  ✨ Generate Video
+ </button>
+
+ <div id="status">
+  Ready! Photo upload karo aur prompt likho.
+ </div>
+</section>
+
+<section class="card wide">
+ <h2>Website Ki Sthiti</h2>
+ <p class="note">
+  Photo upload aur preview feature kaam karta hai.
+  Asli AI video generation ke liye AI engine connect karna
+  abhi baaki hai. Engine connect hone ke baad video preview
+  aur download bhi isi website par chalega.
+ </p>
+</section>
+
+</main>
+
+<footer>My AI Video Maker</footer>
 
 <script>
+const photoInput=document.getElementById("photo");
+const previewWrap=document.getElementById("previewWrap");
+const photoPreview=document.getElementById("photoPreview");
+const fileName=document.getElementById("fileName");
+const statusBox=document.getElementById("status");
 
-const photoInput = document.getElementById("photo");
-const preview = document.getElementById("preview");
-const message = document.getElementById("message");
+let selectedPhoto=null;
+let previewUrl=null;
 
-photoInput.addEventListener("change", function() {
+photoInput.addEventListener("change",function(){
 
-  const file = photoInput.files[0];
+ const file=this.files[0];
 
-  if (!file) return;
+ if(!file)return;
 
-  if (!file.type.startsWith("image/")) {
-    message.textContent = "Please select a valid image.";
-    return;
-  }
+ const allowed=[
+  "image/jpeg",
+  "image/png",
+  "image/webp"
+ ];
 
-  preview.src = URL.createObjectURL(file);
-  preview.style.display = "block";
+ if(!allowed.includes(file.type)){
+  statusBox.textContent=
+  "JPG, PNG ya WEBP photo select karo.";
+  this.value="";
+  return;
+ }
 
-  message.textContent = "Photo uploaded successfully!";
+ if(file.size>15*1024*1024){
+  statusBox.textContent=
+  "Photo 15 MB se chhoti select karo.";
+  this.value="";
+  return;
+ }
 
+ selectedPhoto=file;
+
+ if(previewUrl){
+  URL.revokeObjectURL(previewUrl);
+ }
+
+ previewUrl=URL.createObjectURL(file);
+
+ photoPreview.src=previewUrl;
+ fileName.textContent=file.name;
+ previewWrap.style.display="block";
+
+ statusBox.textContent=
+ "Photo upload ho gayi! Ab prompt likho.";
 });
 
-function generateVideo() {
+document.getElementById("removePhoto")
+.addEventListener("click",function(){
 
-  const file = photoInput.files[0];
-  const prompt = document.getElementById("prompt").value.trim();
+ selectedPhoto=null;
+ photoInput.value="";
+ previewWrap.style.display="none";
 
-  if (!file) {
-    message.textContent = "Please upload a photo first!";
-    return;
-  }
+ if(previewUrl){
+  URL.revokeObjectURL(previewUrl);
+ }
 
-  if (!prompt) {
-    message.textContent = "Please write your video prompt!";
-    return;
-  }
+ previewUrl=null;
+ photoPreview.removeAttribute("src");
 
-  message.textContent =
-    "Success! Your photo and prompt are ready. AI video engine is not connected yet.";
+ statusBox.textContent="Photo hata di gayi.";
+});
 
-}
+document.getElementById("generate")
+.addEventListener("click",function(){
 
+ const prompt=document.getElementById("prompt")
+ .value.trim();
+
+ if(!selectedPhoto){
+  statusBox.textContent=
+  "Pehle photo upload karo.";
+  return;
+ }
+
+ if(!prompt){
+  statusBox.textContent=
+  "Pehle video prompt likho.";
+  return;
+ }
+
+ statusBox.textContent=
+ "Photo aur prompt ready hain! Asli AI video banane ke liye AI engine connect karna baaki hai. Abhi video generate nahi hua hai.";
+});
 </script>
 
 </body>
