@@ -9,6 +9,7 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
  margin:0;
  background:radial-gradient(circle at top right,#20285a,#090d18 45%);
@@ -16,71 +17,140 @@ body{
  font-family:Arial,sans-serif;
  min-height:100vh;
 }
-header{text-align:center;padding:25px 15px}
+
+header{
+ text-align:center;
+ padding:25px 15px;
+}
+
 .logo{
- display:inline-grid;place-items:center;
- width:55px;height:55px;border-radius:17px;
+ display:inline-grid;
+ place-items:center;
+ width:55px;
+ height:55px;
+ border-radius:17px;
  background:linear-gradient(135deg,#7c5cff,#28c8d0);
  font-size:28px;
 }
+
 h1{font-size:30px;margin:12px 0 5px}
 .sub{color:#a9b6cc;font-size:14px}
+
 main{
  width:min(900px,calc(100% - 28px));
  margin:15px auto 40px;
- display:grid;gap:16px;
+ display:grid;
+ gap:16px;
 }
+
 .card{
  background:#111a2b;
  border:1px solid #26344d;
  border-radius:18px;
  padding:18px;
 }
+
 h2{font-size:18px;margin:0 0 15px}
+
 .upload{
  border:2px dashed #526589;
  border-radius:15px;
  min-height:180px;
- display:grid;place-items:center;
+ display:grid;
+ place-items:center;
  text-align:center;
  padding:18px;
  cursor:pointer;
  background:#0c1424;
 }
+
 .upload:hover{border-color:#28d7d0}
 .upload strong{display:block;margin:10px 0}
 .upload small,.hint{color:#a9b6cc;font-size:12px}
+
 #photo{display:none}
-#previewWrap{display:none;margin-top:15px;text-align:center}
-#photoPreview{
- max-width:100%;max-height:350px;
- border-radius:14px;object-fit:contain;
+
+#previewWrap{
+ display:none;
+ margin-top:15px;
+ text-align:center;
 }
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+
+#photoPreview{
+ max-width:100%;
+ max-height:350px;
+ border-radius:14px;
+ object-fit:contain;
+}
+
+.row{
+ display:flex;
+ gap:10px;
+ align-items:center;
+ flex-wrap:wrap;
+ margin-top:12px;
+}
+
 button{
- border:0;border-radius:12px;
- padding:14px 18px;font-weight:bold;
+ border:0;
+ border-radius:12px;
+ padding:14px 18px;
+ font-weight:bold;
  cursor:pointer;
 }
+
 .primary{
- width:100%;color:white;
+ width:100%;
+ color:white;
  background:linear-gradient(100deg,#7c5cff,#377de8);
  font-size:16px;
+ min-height:50px;
 }
-.secondary{background:#26344d;color:white}
+
+.secondary{
+ background:#26344d;
+ color:white;
+}
+
 textarea,select{
- width:100%;background:#0b1322;color:white;
- border:1px solid #26344d;border-radius:12px;
- padding:14px;font-size:15px;
+ width:100%;
+ background:#0b1322;
+ color:white;
+ border:1px solid #26344d;
+ border-radius:12px;
+ padding:14px;
+ font-size:15px;
 }
-textarea{min-height:120px;resize:vertical}
+
+textarea{
+ min-height:120px;
+ resize:vertical;
+}
+
 #status{
- margin-top:13px;padding:13px;
- border-radius:12px;background:#0b1322;
- color:#dce6ff;font-size:13px;line-height:1.6;
+ margin-top:13px;
+ padding:13px;
+ border-radius:12px;
+ background:#0b1322;
+ color:#dce6ff;
+ font-size:13px;
+ line-height:1.6;
+ min-height:45px;
 }
-.note{color:#a9b6cc;font-size:13px;line-height:1.6}
-footer{text-align:center;color:#8290a9;font-size:12px;padding:15px}
+
+.note{
+ color:#a9b6cc;
+ font-size:13px;
+ line-height:1.6;
+}
+
+footer{
+ text-align:center;
+ color:#8290a9;
+ font-size:12px;
+ padding:15px;
+}
+
 @media(min-width:720px){
  main{grid-template-columns:1fr 1fr}
  .wide{grid-column:1/-1}
@@ -93,7 +163,7 @@ footer{text-align:center;color:#8290a9;font-size:12px;padding:15px}
 <header>
  <div class="logo">🎬</div>
  <h1>My AI Video Maker</h1>
- <p class="sub">Apni photo se cinematic video banane ka workspace</p>
+ <p class="sub">Apni photo se cinematic video banao</p>
 </header>
 
 <main>
@@ -109,14 +179,24 @@ footer{text-align:center;color:#8290a9;font-size:12px;padding:15px}
   </div>
  </label>
 
- <input id="photo" type="file"
- accept="image/jpeg,image/png,image/webp">
+ <input
+  id="photo"
+  type="file"
+  accept="image/jpeg,image/png,image/webp"
+  onchange="handlePhoto(event)"
+ >
 
  <div id="previewWrap">
   <img id="photoPreview" alt="Photo Preview">
+
   <div class="row">
    <span id="fileName" class="hint"></span>
-   <button id="removePhoto" class="secondary" type="button">
+
+   <button
+    class="secondary"
+    type="button"
+    onclick="removePhoto()"
+   >
     Photo Hatao
    </button>
   </div>
@@ -124,141 +204,173 @@ footer{text-align:center;color:#8290a9;font-size:12px;padding:15px}
 </section>
 
 <section class="card">
+
  <h2>2. Video Prompt Likho</h2>
 
- <textarea id="prompt"
- placeholder="Example: Create a realistic cinematic video. The person gently turns toward the camera, natural wind moves the background, smooth camera movement and realistic lighting."></textarea>
-</textarea>
-<textarea id="prompt"
-placeholder="Example: Create a realistic cinematic video. The person gently turns toward the camera, natural wind moves the background, smooth camera movement and realistic lighting.">
- <p class="hint">Video mein kya dikhana hai, yahan likho.</p>
+ <textarea
+  id="prompt"
+  placeholder="Example: Create a realistic cinematic video. The person gently turns toward the camera, natural wind moves the background and smooth camera movement."
+ ></textarea>
 
- <h2 style="margin-top:20px">3. Video Format</h2>
+ <p class="hint">
+  Video mein kya dikhana hai, yahan likho.
+ </p>
+
+ <h2 style="margin-top:20px">
+  3. Video Format
+ </h2>
 
  <select id="ratio">
   <option value="9:16">Vertical 9:16 - Reels / Shorts</option>
   <option value="16:9">Landscape 16:9 - YouTube</option>
   <option value="1:1">Square 1:1</option>
  </select>
+
 </section>
 
 <section class="card wide">
+
  <h2>4. Generate Video</h2>
 
- <button id="generate" class="primary" type="button">
+ <button
+  id="generate"
+  class="primary"
+  type="button"
+  onclick="generateVideo()"
+ >
   ✨ Generate Video
  </button>
 
- <div id="status">
+ <div id="status" role="status" aria-live="polite">
   Ready! Photo upload karo aur prompt likho.
  </div>
+
 </section>
 
 <section class="card wide">
+
  <h2>Website Ki Sthiti</h2>
+
  <p class="note">
-  Photo upload aur preview feature kaam karta hai.
+  Photo upload, preview aur prompt features taiyar hain.
   Asli AI video generation ke liye AI engine connect karna
-  abhi baaki hai. Engine connect hone ke baad video preview
-  aur download bhi isi website par chalega.
+  baaki hai. Engine connect hone ke baad isi website se
+  video generate, preview aur download kar sakoge.
  </p>
+
 </section>
 
 </main>
 
-<footer>My AI Video Maker</footer>
+<footer>
+ My AI Video Maker
+</footer>
 
 <script>
-const photoInput=document.getElementById("photo");
-const previewWrap=document.getElementById("previewWrap");
-const photoPreview=document.getElementById("photoPreview");
-const fileName=document.getElementById("fileName");
-const statusBox=document.getElementById("status");
 
-let selectedPhoto=null;
-let previewUrl=null;
+let selectedPhoto = null;
+let previewUrl = null;
 
-photoInput.addEventListener("change",function(){
+function showStatus(message){
+ document.getElementById("status").textContent = message;
+}
 
- const file=this.files[0];
+function handlePhoto(event){
 
- if(!file)return;
+ const file = event.target.files[0];
 
- const allowed=[
+ if(!file) return;
+
+ const allowed = [
   "image/jpeg",
   "image/png",
   "image/webp"
  ];
 
  if(!allowed.includes(file.type)){
-  statusBox.textContent=
-  "JPG, PNG ya WEBP photo select karo.";
-  this.value="";
+  showStatus("JPG, PNG ya WEBP photo select karo.");
+  event.target.value = "";
   return;
  }
 
- if(file.size>15*1024*1024){
-  statusBox.textContent=
-  "Photo 15 MB se chhoti select karo.";
-  this.value="";
+ if(file.size > 15 * 1024 * 1024){
+  showStatus("Photo 15 MB se chhoti select karo.");
+  event.target.value = "";
   return;
  }
 
- selectedPhoto=file;
+ selectedPhoto = file;
 
  if(previewUrl){
   URL.revokeObjectURL(previewUrl);
  }
 
- previewUrl=URL.createObjectURL(file);
+ previewUrl = URL.createObjectURL(file);
 
- photoPreview.src=previewUrl;
- fileName.textContent=file.name;
- previewWrap.style.display="block";
+ document.getElementById("photoPreview").src = previewUrl;
 
- statusBox.textContent=
- "Photo upload ho gayi! Ab prompt likho.";
-});
+ document.getElementById("fileName").textContent = file.name;
 
-document.getElementById("removePhoto")
-.addEventListener("click",function(){
+ document.getElementById("previewWrap").style.display = "block";
 
- selectedPhoto=null;
- photoInput.value="";
- previewWrap.style.display="none";
+ showStatus("Photo upload ho gayi! Ab prompt likho.");
+
+}
+
+function removePhoto(){
+
+ selectedPhoto = null;
+
+ document.getElementById("photo").value = "";
+
+ document.getElementById("previewWrap").style.display = "none";
+
+ document.getElementById("photoPreview").removeAttribute("src");
 
  if(previewUrl){
   URL.revokeObjectURL(previewUrl);
  }
 
- previewUrl=null;
- photoPreview.removeAttribute("src");
+ previewUrl = null;
 
- statusBox.textContent="Photo hata di gayi.";
-});
+ showStatus("Photo hata di gayi.");
 
-document.getElementById("generate")
-.addEventListener("click",function(){
+}
 
- const prompt=document.getElementById("prompt")
- .value.trim();
+function generateVideo(){
 
- if(!selectedPhoto){
-  statusBox.textContent=
-  "Pehle photo upload karo.";
-  return;
+ try{
+
+  if(!selectedPhoto){
+   showStatus("Pehle photo upload karo!");
+   return;
+  }
+
+  const prompt = document.getElementById("prompt").value.trim();
+
+  if(!prompt){
+   showStatus("Pehle video prompt likho!");
+   return;
+  }
+
+  const ratio = document.getElementById("ratio").value;
+
+  showStatus(
+   "Photo aur prompt ready hain! Format: " +
+   ratio +
+   ". AI video engine abhi connect karna baaki hai."
+  );
+
+ }catch(error){
+
+  showStatus("Error: " + error.message);
+
  }
 
- if(!prompt){
-  statusBox.textContent=
-  "Pehle video prompt likho.";
-  return;
- }
+}
 
- statusBox.textContent=
- "Photo aur prompt ready hain! Asli AI video banane ke liye AI engine connect karna baaki hai. Abhi video generate nahi hua hai.";
-});
 </script>
 
 </body>
 </html>
+
